@@ -1,5 +1,6 @@
 package com.lffblk.counter;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -10,7 +11,12 @@ import static org.junit.Assert.*;
 
 public class FileParserTest {
 
-    private final FileParser parser = new FileParser(new IPParser(new IPHashGenerator()));
+    private FileParser parser = new FileParser(new IPParser(new IPHashGenerator()));
+
+    @Before
+    public void init() {
+        parser = new FileParser(new IPParser(new IPHashGenerator()));
+    }
 
     @Test
     public void testFileParserE2E_smallFile() {
