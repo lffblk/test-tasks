@@ -1,6 +1,6 @@
-package com.lffblk.counter;
+package com.lffblk.counter
 
-import java.util.Objects;
+import java.util.*
 
 /**
  * Represents unique IP hash for particular IP address.
@@ -13,50 +13,30 @@ import java.util.Objects;
  * BitSet #0: 0.0.0.0 - 127.255.255.255
  * BitSet #1: 128.0.0.0 - 255.255.255.255
  */
-class IPHash {
-
-    private int index;
-    private int bitSetNumber;
-
-    IPHash(final int index, final int bitSetNumber) {
-        this.index = index;
-        this.bitSetNumber = bitSetNumber;
-    }
-
-    int getIndex() {
-        return index;
-    }
-
-    int getBitSetNumber() {
-        return bitSetNumber;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+internal class IPHash(val index: Int, val bitSetNumber: Int) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
         }
-        if (o == null) {
-            return false;
+        if (other == null) {
+            return false
         }
-        if (getClass() != o.getClass()) {
-            return false;
+        if (javaClass != other.javaClass) {
+            return false
         }
-        IPHash hash = (IPHash) o;
-        return Objects.equals(index, hash.index)
-            && Objects.equals(bitSetNumber, hash.bitSetNumber);
+        val hash = other as IPHash
+        return (index == hash.index
+                && bitSetNumber == hash.bitSetNumber)
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(index, bitSetNumber);
+    override fun hashCode(): Int {
+        return Objects.hash(index, bitSetNumber)
     }
 
-    @Override
-    public String toString() {
+    override fun toString(): String {
         return "IPHash{" +
-            "index=" + index +
-            ", bitSetNumber=" + bitSetNumber +
-            '}';
+                "index=" + index +
+                ", bitSetNumber=" + bitSetNumber +
+                '}'
     }
 }
