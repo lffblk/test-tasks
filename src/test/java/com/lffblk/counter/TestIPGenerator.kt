@@ -1,27 +1,26 @@
-package com.lffblk.counter;
+package com.lffblk.counter
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.ArrayList
+import java.util.Random
 
-class TestIPGenerator {
+internal class TestIPGenerator {
 
-    private final Random random = new Random();
+    private val random = Random()
 
-    List<String> generateIpAddressOctets() {
-        return generateIpAddressOctetsInternal();
+    fun generateIpAddressOctets(): List<String> {
+        return generateIpAddressOctetsInternal()
     }
 
-    String generateIpAddress() {
-        List<String> octets = generateIpAddressOctetsInternal();
-        return String.join(".", octets);
+    fun generateIpAddress(): String {
+        val octets = generateIpAddressOctetsInternal()
+        return octets.joinToString(".")
     }
 
-    private List<String> generateIpAddressOctetsInternal() {
-        List<String> octets = new ArrayList<>(4);
-        for (int i = 0; i < 4; i++) {
-            octets.add(String.valueOf(random.nextInt(256)));
+    private fun generateIpAddressOctetsInternal(): List<String> {
+        val octets = ArrayList<String>(4)
+        for (i in 0..3) {
+            octets.add(random.nextInt(256).toString())
         }
-        return octets;
+        return octets
     }
 }
