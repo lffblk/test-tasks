@@ -41,41 +41,41 @@ public class CopyUtilsTest {
     public void deepCopy_arrayOfPrimitives() {
         int[] primitives = {4, 8, 15, 16, 23, 42};
         int[] copy = CopyUtils.deepCopy(primitives);
-        ComplexObjectsComparator.assertDeepCopy(primitives, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(primitives, copy);
     }
 
     @Test
     public void deepCopy_string() {
         String str = "s";
         String copy = CopyUtils.deepCopy(str);
-        ComplexObjectsComparator.assertDeepCopy(str, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(str, copy);
     }
 
     @Test
     public void deepCopy_enum() {
         PrimitiveType enumValue = PrimitiveType.SHORT;
         PrimitiveType copy = CopyUtils.deepCopy(enumValue);
-        ComplexObjectsComparator.assertDeepCopy(enumValue, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(enumValue, copy);
     }
 
     @Test
     public void deepCopy_person() {
         Person copy = CopyUtils.deepCopy(jon);
-        ComplexObjectsComparator.assertDeepCopy(jon, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(jon, copy);
     }
 
     @Test
     public void deepCopy_arrayOfPersons() {
         Person[] nedStarkDaughters = {sansa, arya};
         Person[] copy = CopyUtils.deepCopy(nedStarkDaughters);
-        ComplexObjectsComparator.assertDeepCopy(nedStarkDaughters, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(nedStarkDaughters, copy);
     }
 
     @Test
     public void deepCopy_listOfPersons() {
         List<Person> nedStarkSons = new ArrayList<>(Arrays.asList(jon, robb, bran, rickon));
         List<Person> copy = CopyUtils.deepCopy(nedStarkSons);
-        ComplexObjectsComparator.assertDeepCopy(nedStarkSons, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(nedStarkSons, copy);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CopyUtilsTest {
         nedStarkDaughters.put(sansa.getName(), sansa);
         nedStarkDaughters.put(arya.getName(), arya);
         Map<String, Person> copy = CopyUtils.deepCopy(nedStarkDaughters);
-        ComplexObjectsComparator.assertDeepCopy(nedStarkDaughters, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(nedStarkDaughters, copy);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class CopyUtilsTest {
         Set<Person> nedStarkDaughters = new HashSet<>(Arrays.asList(sansa, arya));
         Set<Person> copy = CopyUtils.deepCopy(nedStarkDaughters);
         assertEquals(nedStarkDaughters, copy);
-        ComplexObjectsComparator.assertDeepCopy(nedStarkDaughters, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(nedStarkDaughters, copy);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class CopyUtilsTest {
         nedStarkDaughters.offer(sansa);
         nedStarkDaughters.offer(arya);
         Queue<Person> copy = CopyUtils.deepCopy(nedStarkDaughters);
-        ComplexObjectsComparator.assertDeepCopy(nedStarkDaughters, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(nedStarkDaughters, copy);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CopyUtilsTest {
         Person[][] linkedListElements = {nedStarkSons, nedStarkDaughters};
         ComplexObject complexObject = new ComplexObject(linkedListElements, PrimitiveType.BOOLEAN);
         ComplexObject copy = CopyUtils.deepCopy(complexObject);
-        ComplexObjectsComparator.assertDeepCopy(complexObject, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(complexObject, copy);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class CopyUtilsTest {
         Person[] nedStarkDaughters = {sansa, arya};
         ObjectInterface complexObject = new ComplexObject(nedStarkDaughters, null);
         ObjectInterface copy = CopyUtils.deepCopy(complexObject);
-        ComplexObjectsComparator.assertDeepCopy(complexObject, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(complexObject, copy);
     }
 
     @Test
@@ -127,6 +127,6 @@ public class CopyUtilsTest {
         ObjectWithPrimitivesInConstructor object = new ObjectWithPrimitivesInConstructor((byte) 1, (short) 1, 1,
             1, 1.0f, 1.0, '1', true);
         ObjectWithPrimitivesInConstructor copy = CopyUtils.deepCopy(object);
-        ComplexObjectsComparator.assertDeepCopy(object, copy);
+        ComplexObjectsComparator.INSTANCE.assertDeepCopy(object, copy);
     }
 }

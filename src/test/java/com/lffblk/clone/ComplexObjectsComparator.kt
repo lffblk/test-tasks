@@ -1,14 +1,12 @@
-package com.lffblk.clone;
+package com.lffblk.clone
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Array
+import java.lang.reflect.Field
+import java.util.HashSet
 
-import static org.junit.Assert.*;
+import org.junit.Assert.*
 
-class ComplexObjectsComparator {
+internal object ComplexObjectsComparator {
 
     /**
      * Recursively compares objects equality and ensures that objects and all fields are not same.
@@ -17,54 +15,55 @@ class ComplexObjectsComparator {
      * @param source source object
      * @param copy copied object
      */
-    static void assertDeepCopy(final Object source, final Object copy) {
-        assertDeepCopyInternal(source, copy, new HashSet<>());
+    fun assertDeepCopy(source: Any, copy: Any) {
+        assertDeepCopyInternal(source, copy, HashSet())
     }
 
-    private static void assertDeepCopyInternal(final Object source,
-                                               final Object copy,
-                                               final Set<Object> alreadyCompared) {
+    private fun assertDeepCopyInternal(source: Any?,
+                                       copy: Any?,
+                                       alreadyCompared: MutableSet<Any>) {
         if (alreadyCompared.contains(source)) {
-            return;
+            return
         }
         if (source == null && copy == null) {
-            return;
+            return
         }
-        assertNotNull(source);
-        assertNotNull(copy);
-        alreadyCompared.add(source);
-        if (source.getClass().isArray()) {
-            assertArraysEquals(source, copy, alreadyCompared);
+        assertNotNull(source)
+        assertNotNull(copy)
+        alreadyCompared.add(source!!)
+        if (source.javaClass.isArray) {
+            assertArraysEquals(source, copy!!, alreadyCompared)
         } else {
-            assertEquals(source, copy);
+            assertEquals(source, copy)
         }
-        if (source instanceof String) {
+        if (source is String) {
             // as strings are immutable, copied value will be the same
-            return;
+            return
         }
-        if (source instanceof Collection) {
+        if (source is Collection<*>) {
             // HashSet<T> implementation contains internal HashMap<T,Object>, where values are of Object type.
             // Source Object instance will not be equals to copied instance as by default equals method compares
             // references.
-            return;
+            return
         }
-        Field[] declaredFields = source.getClass().getDeclaredFields();
-        for (Field field : declaredFields) {
-            field.setAccessible(true);
+        val declaredFields = source.javaClass.declaredFields
+        for (field in declaredFields) {
+            field.isAccessible = true
             try {
-                assertDeepCopyInternal(field.get(source), field.get(copy), alreadyCompared);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException(e);
+                assertDeepCopyInternal(field.get(source), field.get(copy), alreadyCompared)
+            } catch (e: IllegalAccessException) {
+                throw IllegalStateException(e)
             }
+
         }
     }
 
-    private static void assertArraysEquals(final Object source,
-                                           final Object copy,
-                                           final Set<Object> alreadyCompared) {
-        assertEquals(source.getClass(), copy.getClass());
-        for (int i = 0; i < Array.getLength(source); i++) {
-            assertDeepCopyInternal(Array.get(source, i), Array.get(copy, i), alreadyCompared);
+    private fun assertArraysEquals(source: Any,
+                                   copy: Any,
+                                   alreadyCompared: MutableSet<Any>) {
+        assertEquals(source.javaClass, copy.javaClass)
+        for (i in 0 until Array.getLength(source)) {
+            assertDeepCopyInternal(Array.get(source, i), Array.get(copy, i), alreadyCompared)
         }
     }
 }

@@ -1,50 +1,26 @@
-package com.lffblk.clone.model;
+package com.lffblk.clone.model
 
-import java.util.List;
-import java.util.Objects;
+import java.util.Objects
 
-public class Person {
-    private String name;
-    private int age;
-    private List<String> favoriteBooks;
+class Person(val name: String, private val age: Int, private val favoriteBooks: List<String>?) {
 
-    public Person(final String name, final int age, final List<String> favoriteBooks) {
-        this.name = name;
-        this.age = age;
-        this.favoriteBooks = favoriteBooks;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public List<String> getFavoriteBooks() {
-        return favoriteBooks;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
         }
-        if (o == null) {
-            return false;
+        if (other == null) {
+            return false
         }
-        if (getClass() != o.getClass()) {
-            return false;
+        if (javaClass != other.javaClass) {
+            return false
         }
-        Person person = (Person) o;
-        return Objects.equals(name, person.name)
-            && Objects.equals(age, person.age)
-            && Objects.equals(favoriteBooks, person.favoriteBooks);
+        val person = other as Person?
+        return (name == person!!.name
+                && age == person.age
+                && favoriteBooks == person.favoriteBooks)
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, age, favoriteBooks);
+    override fun hashCode(): Int {
+        return Objects.hash(name, age, favoriteBooks)
     }
 }

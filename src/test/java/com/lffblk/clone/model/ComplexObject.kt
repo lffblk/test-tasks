@@ -1,121 +1,98 @@
-package com.lffblk.clone.model;
+package com.lffblk.clone.model
 
-import com.lffblk.clone.PrimitiveType;
+import com.lffblk.clone.PrimitiveType
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.Arrays
+import java.util.Objects
 
 /**
  * Object with recursion links, private fields and enum
  */
-public class ComplexObject extends AbstractObject implements ObjectInterface {
-    private ComplexObject itself;
-    private LinkedList list;
-    private PrimitiveType enumValue;
+class ComplexObject(linkedListElements: Array<Any>,
+                    private val enumValue: PrimitiveType?) : AbstractObject(), ObjectInterface {
+    private val itself: ComplexObject = this
+    private val list: LinkedList
 
-    public ComplexObject(final Object[] linkedListElements,
-                         final PrimitiveType enumValue) {
-        itself = this;
-        this.list = new LinkedList(linkedListElements);
-        this.enumValue = enumValue;
+    init {
+        this.list = LinkedList(linkedListElements)
     }
 
-    public ComplexObject getItselfLink() {
-        return itself;
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+        if (other == null) {
+            return false
+        }
+        if (javaClass != other.javaClass) {
+            return false
+        }
+        val complexObject = other as ComplexObject?
+
+        return (super.equals(other)
+                && this === itself
+                && list == complexObject!!.list
+                && enumValue == complexObject.enumValue)
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (getClass() != o.getClass()) {
-            return false;
-        }
-        ComplexObject complexObject = (ComplexObject) o;
-
-        return super.equals(o)
-            && this == itself
-            && Objects.equals(list, complexObject.list)
-            && Objects.equals(enumValue, complexObject.enumValue);
+    override fun hashCode(): Int {
+        return Objects.hash(list, enumValue)
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(list, enumValue);
-    }
+    private class LinkedList internal constructor(elements: Array<Any>) {
+        internal val first: Entry?
 
-    private static class LinkedList {
-        private Entry head;
-
-        LinkedList(final Object[] elements) {
-            Entry entry = null;
-            for (int i = elements.length - 1; i >= 0; i--) {
-                entry = new Entry(elements[i], entry);
+        init {
+            var entry: Entry? = null
+            for (i in elements.indices.reversed()) {
+                entry = Entry(elements[i], entry)
             }
-            head =  entry;
+            first = entry
         }
 
-        Entry getFirst() {
-            return head;
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+            if (other == null) {
+                return false
+            }
+            if (javaClass != other.javaClass) {
+                return false
+            }
+            val list = other as LinkedList?
+            return first == list!!.first
         }
 
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null) {
-                return false;
-            }
-            if (getClass() != o.getClass()) {
-                return false;
-            }
-            LinkedList list = (LinkedList) o;
-            return Objects.equals(head, list.head);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(head);
+        override fun hashCode(): Int {
+            return Objects.hash(first)
         }
     }
 
-    private static class Entry {
-        private Object data;
-        private Entry next;
+    private class Entry internal constructor(private val data: Any, private val next: Entry?) {
 
-        Entry(final Object data, final Entry next) {
-            this.data = data;
-            this.next = next;
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+            if (other == null) {
+                return false
+            }
+            if (javaClass != other.javaClass) {
+                return false
+            }
+            val entry = other as Entry?
+
+            val dataEquals = if (data.javaClass.isArray)
+                Arrays.equals(data as Array<Any>, entry!!.data as Array<Any>)
+            else
+                data == entry!!.data
+
+            return dataEquals && next == entry.next
         }
 
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null) {
-                return false;
-            }
-            if (getClass() != o.getClass()) {
-                return false;
-            }
-            Entry entry = (Entry) o;
-
-            boolean dataEquals = data.getClass().isArray() ? Arrays.equals((Object[]) data, (Object[]) entry.data)
-                : Objects.equals(data, entry.data);
-
-            return dataEquals
-                && Objects.equals(next, entry.next);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), data, next);
+        override fun hashCode(): Int {
+            return Objects.hash(super.hashCode(), data, next)
         }
     }
 }
