@@ -13,7 +13,7 @@ import java.util.Objects;
  * BitSet #0: 0.0.0.0 - 127.255.255.255
  * BitSet #1: 128.0.0.0 - 255.255.255.255
  */
-class IPHash {
+public class IPHash {
 
     private int index;
     private int bitSetNumber;
